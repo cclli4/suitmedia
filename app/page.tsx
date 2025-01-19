@@ -1,101 +1,404 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useState, useEffect } from 'react';
+import Header from './components/Header';
+import Banner from './components/Banner';
+import PostCard from './components/PostCard';
+
+interface Post {
+  id: number;
+  title: string;
+  date: string;
+  image: string;
+  published_at: string;
+}
+
+const Page = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [sort, setSort] = useState('-published_at');
+
+  const postsData: Post[] = [
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+    {
+      id: 1,
+      title: "Terbaru Kenali Tingkatan Influencers berdasarkan Jumlah Followers",
+      date: "2024-10-01",
+      image: "./banner2.jpg",
+      published_at: "2024-10-011T00:00:00Z", 
+    },
+    {
+      id: 2,
+      title: "Jangan Asal Pilih Influencer, Berikut Cara Menyusun Strategi",
+      date: "2024-10-01",
+      image: "./banner3.png",
+      published_at: "2024-10-01T00:00:00Z",
+    },
+  ];
+
+  useEffect(() => {
+    const fetchPosts = () => {
+      setLoading(true);
+      // Simulasi fetching data dari variabel postsData
+      const sortedPosts = sortPosts(postsData, sort);
+      const startIndex = (page - 1) * perPage;
+      const paginatedPosts = sortedPosts.slice(startIndex, startIndex + perPage);
+
+      setPosts(paginatedPosts);
+      setTotalPages(Math.ceil(postsData.length / perPage));
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, [page, perPage, sort]);
+
+  const sortPosts = (posts: Post[], sortBy: string): Post[] => {
+    return posts.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return sortBy === '-published_at' ? dateB - dateA : dateA - dateB;
+    });
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePerPageChange = (newPerPage: string) => {
+    setPerPage(parseInt(newPerPage, 10));
+    setPage(1); // Reset ke halaman 1 setiap kali `perPage` berubah
+  };
+
+  const handleSortChange = (newSort: string) => {
+    setSort(newSort);
+    setPage(1); // Reset ke halaman 1 setiap kali `sort` berubah
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div>
+      <Header />
+      <Banner />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <main className="container mx-auto px-4 py-8">
+        {/* Kontrol Filter */}
+        <div className="flex justify-between items-center mb-6">
+          <p className="text-black">
+            Showing {posts.length > 0 ? (page - 1) * perPage + 1 : 0} -{' '}
+            {Math.min(page * perPage, postsData.length)} of {postsData.length}
+          </p>
+
+          <div className="flex space-x-4 items-center">
+            <div className="flex items-center space-x-2">
+              <label htmlFor="perPage" className="text-black text-sm font-medium">
+                Show per page:
+              </label>
+              <select
+                id="perPage"
+                value={perPage}
+                onChange={(e) => handlePerPageChange(e.target.value)}
+                className="border border-gray-300 rounded-full px-4 py-2 text-black text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              >
+                {[10, 20, 30].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <label htmlFor="sort" className="text-black text-sm font-medium">
+                Sort by:
+              </label>
+              <select
+                id="sort"
+                value={sort}
+                onChange={(e) => handleSortChange(e.target.value)}
+                className="border border-gray-300 rounded-full px-4 py-2 text-black text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              >
+                <option value="-published_at">Newest</option>
+                <option value="published_at">Oldest</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Konten */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(perPage)].map((_, i) => (
+              <div key={i} className="animate-pulse">
+                <div className="bg-gray-200 aspect-video rounded-lg mb-4" />
+                <div className="h-4 bg-gray-200 rounded w-1/4 mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-3/4" />
+              </div>
+            ))}
+          </div>
+        ) : posts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {posts.map((post, index) => (
+              <PostCard key={index} post={post} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-black">No posts available.</p>
+        )}
+
+        {/* Pagination */}
+        <div className="flex justify-center mt-8 space-x-2">
+          <button
+            onClick={() => handlePageChange(1)}
+            disabled={page === 1}
+            className={`px-3 py-1 rounded-full ${
+              page === 1 ? 'text-gray-400' : 'text-black hover:bg-gray-200'
+            }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            &laquo;
+          </button>
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            className={`px-3 py-1 rounded-full ${
+              page === 1 ? 'text-gray-400' : 'text-black hover:bg-gray-200'
+            }`}
           >
-            Read our docs
-          </a>
+            &lsaquo;
+          </button>
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i + 1)}
+              className={`px-4 py-2 rounded-full ${
+                page === i + 1
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-200 text-black hover:bg-gray-300'
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+            className={`px-3 py-1 rounded-full ${
+              page === totalPages ? 'text-gray-400' : 'text-black hover:bg-gray-200'
+            }`}
+          >
+            &rsaquo;
+          </button>
+          <button
+            onClick={() => handlePageChange(totalPages)}
+            disabled={page === totalPages}
+            className={`px-3 py-1 rounded-full ${
+              page === totalPages ? 'text-gray-400' : 'text-black hover:bg-gray-200'
+            }`}
+          >
+            &raquo;
+          </button>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
-}
+};
+
+export default Page;
