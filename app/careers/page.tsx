@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Header from './ideas/Header';
-import Banner from './ideas/Banner';
-import PostCard from './ideas/PostCard'; // Ensure this path is correct or update it to the correct path
+import Header from './Header';
+import Banner from './Banner';
+import PostCard from './PostCard';
 
 interface Post {
   id: number;

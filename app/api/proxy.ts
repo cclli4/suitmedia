@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    // Log response for debugging
     console.log('API Response:', response);
 
     if (!response.ok) {
@@ -25,7 +24,7 @@ export async function GET(request: NextRequest) {
     }
 
     const data = await response.json();
-    console.log('API Data:', data); // Debugging log
+    console.log('API Data:', data); 
     return NextResponse.json(data);
   } catch (error) {
     console.error('Fetch error:', error);
